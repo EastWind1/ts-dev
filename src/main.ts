@@ -1,7 +1,17 @@
+import { Car } from './car';
 const canvas = document.getElementById('canvas') as HTMLCanvasElement;
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 let ctx: CanvasRenderingContext2D;
+
+function toImage() {
+    let image = new Image();
+    image.src = canvas.toDataURL("image/png");
+    document.getElementById('preview').append(image);
+    console.log(image); 
+}
+
+document.getElementById('export').onclick = toImage;
 
 canvas.onmousedown = function (e) {
     ctx = canvas.getContext('2d');
@@ -22,3 +32,7 @@ canvas.onmouseout = function(e) {
 canvas.onmouseup = function (e) {
     ctx = null;
 }
+
+
+const redCar = new Car('red');
+console.log(redCar.toString());

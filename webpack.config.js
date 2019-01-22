@@ -20,10 +20,16 @@ module.exports = {
             loader: 'ts-loader'
         }]
     },
+    resolve: {
+        extensions: [
+            '.ts', '.js'
+        ]
+    },
     plugins: [
         new HtmlWebpackPlugin({
             template: './src/index.html',
             filename: 'index.html'
+
         }),
         new webpack.HotModuleReplacementPlugin()
     ]
