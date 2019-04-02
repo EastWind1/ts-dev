@@ -11,7 +11,7 @@ module.exports = {
     },
     devServer: {
         contentBase: './dist',
-        port: 8081,
+        port: 80,
         hot: true
     },
     module: {
@@ -33,4 +33,4 @@ module.exports = {
         }),
         new webpack.HotModuleReplacementPlugin()
     ]
-}
+};

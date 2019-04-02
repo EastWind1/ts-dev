@@ -1,38 +1,60 @@
-import { Car } from './car';
-const canvas = document.getElementById('canvas') as HTMLCanvasElement;
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
-let ctx: CanvasRenderingContext2D;
+// import "./canvas/canvas";
 
-function toImage() {
-    let image = new Image();
-    image.src = canvas.toDataURL("image/png");
-    document.getElementById('preview').append(image);
-    console.log(image); 
+import { bubbleSort } from "./sort/bubble";
+import { heapSort } from "./sort/heap";
+import { insertSort } from "./sort/insert";
+import { mergeSort } from "./sort/merge";
+import { quickSort } from "./sort/quick";
+import { selectSort } from "./sort/select";
+import { shellSort } from "./sort/shell";
+import { TestBed } from "./testbed";
+
+const list = [435, 254, 534, 425, 634, 653, 6536, 536, 34, 535, 2, 54];
+function origin() {
+    return list;
 }
 
-document.getElementById('export').onclick = toImage;
-
-canvas.onmousedown = function (e) {
-    ctx = canvas.getContext('2d');
-    var lineargradient = ctx.createLinearGradient(0, 0, 150, 150);
-    lineargradient.addColorStop(0, 'white');
-    lineargradient.addColorStop(1, 'black');
-    ctx.moveTo(e.layerX, e.layerY);
-}
-canvas.onmousemove = function (e) {
-    if (ctx) {
-        ctx.lineTo(e.layerX, e.layerY);
-        ctx.stroke();
-    }
-}
-canvas.onmouseout = function(e) {
-    ctx = null;
-}
-canvas.onmouseup = function (e) {
-    ctx = null;
+function bubbleTest() {
+    const copy = JSON.parse(JSON.stringify(list));
+    bubbleSort(copy);
+    return copy;
 }
 
+function insertTest() {
+    const copy = JSON.parse(JSON.stringify(list));
+    insertSort(copy);
+    return copy;
+}
 
-const redCar = new Car('red');
-console.log(redCar.toString());
+function selectTest() {
+    const copy = JSON.parse(JSON.stringify(list));
+    selectSort(copy);
+    return copy;
+}
+
+function shellTest() {
+    const copy = JSON.parse(JSON.stringify(list));
+    shellSort(copy);
+    return copy;
+}
+
+function mergeTest() {
+    const copy = JSON.parse(JSON.stringify(list));
+    return mergeSort(copy);
+}
+
+function quickTest() {
+    const copy = JSON.parse(JSON.stringify(list));
+    quickSort(copy, 0, copy.length - 1);
+    return copy;
+}
+
+function heapTest() {
+    const copy = JSON.parse(JSON.stringify(list));
+    heapSort(copy);
+    return copy;
+}
+
+const testBed = new TestBed();
+testBed.add(origin, bubbleTest, insertTest, selectTest, shellTest, mergeTest, quickTest, heapTest);
+testBed.run();
