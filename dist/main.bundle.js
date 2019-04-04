@@ -63,7 +63,7 @@
 /******/
 /******/ 	var hotApplyOnUpdate = true;
 /******/ 	// eslint-disable-next-line no-unused-vars
-/******/ 	var hotCurrentHash = "8ee71190ffb9bdd8bda7";
+/******/ 	var hotCurrentHash = "998359c253d137aa7194";
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule;
@@ -793,14 +793,15 @@
 /************************************************************************/
 /******/ ({
 
-/***/ "./src/canvas.ts":
-/*!***********************!*\
-  !*** ./src/canvas.ts ***!
-  \***********************/
+/***/ "./src/decoartor/log.decorator.ts":
+/*!****************************************!*\
+  !*** ./src/decoartor/log.decorator.ts ***!
+  \****************************************/
 /*! no static exports found */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
-eval("var canvas = document.getElementById('canvas');\r\ncanvas.width = window.innerWidth;\r\ncanvas.height = window.innerHeight;\r\nvar ctx;\r\nfunction toImage() {\r\n    var image = new Image();\r\n    image.src = canvas.toDataURL(\"image/png\");\r\n    document.getElementById('preview').append(image);\r\n    console.log(image);\r\n}\r\ndocument.getElementById('export').onclick = toImage;\r\ncanvas.onmousedown = function (e) {\r\n    ctx = canvas.getContext('2d');\r\n    var lineargradient = ctx.createLinearGradient(0, 0, 150, 150);\r\n    lineargradient.addColorStop(0, 'white');\r\n    lineargradient.addColorStop(1, 'black');\r\n    ctx.moveTo(e.layerX, e.layerY);\r\n};\r\ncanvas.onmousemove = function (e) {\r\n    if (ctx) {\r\n        ctx.lineTo(e.layerX, e.layerY);\r\n        ctx.stroke();\r\n    }\r\n};\r\ncanvas.onmouseout = function (e) {\r\n    ctx = null;\r\n};\r\ncanvas.onmouseup = function (e) {\r\n    ctx = null;\r\n};\r\n\n\n//# sourceURL=webpack:///./src/canvas.ts?");
+"use strict";
+eval("\r\nObject.defineProperty(exports, \"__esModule\", { value: true });\r\nfunction TestLog(target, name, descriptor) {\r\n    var method = descriptor.value;\r\n    descriptor.value = function () {\r\n        var args = [];\r\n        for (var _i = 0; _i < arguments.length; _i++) {\r\n            args[_i] = arguments[_i];\r\n        }\r\n        var result = method.apply(this, args);\r\n        var outResult = null;\r\n        if (typeof result === 'object') {\r\n            outResult = JSON.stringify(result);\r\n        }\r\n        else {\r\n            outResult = result;\r\n        }\r\n        if (typeof outResult === 'undefined') {\r\n            outResult = 'void';\r\n        }\r\n        console.log(new Date().toLocaleString() + \" - [\" + target.constructor.name + \"]: \" + name + \" (\" + args[0].name + \") => \" + outResult);\r\n        var div = document.createElement('div');\r\n        div.innerHTML = new Date().toLocaleString() + \" - [\" + target.constructor.name + \"]: \" + name + \" (\" + args[0].name + \") => \" + outResult + \"<br>\";\r\n        document.getElementById('preview').appendChild(div);\r\n        return result;\r\n    };\r\n}\r\nexports.TestLog = TestLog;\r\n\n\n//# sourceURL=webpack:///./src/decoartor/log.decorator.ts?");
 
 /***/ }),
 
@@ -812,7 +813,103 @@ eval("var canvas = document.getElementById('canvas');\r\ncanvas.width = window.i
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-eval("\r\nObject.defineProperty(exports, \"__esModule\", { value: true });\r\n__webpack_require__(/*! ./canvas */ \"./src/canvas.ts\");\r\nvar worker;\r\nsetTimeout(function () {\r\n    worker = new Worker('task.js');\r\n    worker.onmessage = function (event) {\r\n        console.log('main receiving ' + event.data);\r\n    };\r\n}, 5000);\r\nconsole.log('new worker');\r\nsetTimeout(function () {\r\n    worker.postMessage('main');\r\n    console.log('main post message');\r\n}, 10000);\r\n\n\n//# sourceURL=webpack:///./src/main.ts?");
+eval("\r\n// import \"./canvas/canvas\";\r\nObject.defineProperty(exports, \"__esModule\", { value: true });\r\nvar bubble_1 = __webpack_require__(/*! ./sort/bubble */ \"./src/sort/bubble.ts\");\r\nvar heap_1 = __webpack_require__(/*! ./sort/heap */ \"./src/sort/heap.ts\");\r\nvar insert_1 = __webpack_require__(/*! ./sort/insert */ \"./src/sort/insert.ts\");\r\nvar merge_1 = __webpack_require__(/*! ./sort/merge */ \"./src/sort/merge.ts\");\r\nvar quick_1 = __webpack_require__(/*! ./sort/quick */ \"./src/sort/quick.ts\");\r\nvar select_1 = __webpack_require__(/*! ./sort/select */ \"./src/sort/select.ts\");\r\nvar shell_1 = __webpack_require__(/*! ./sort/shell */ \"./src/sort/shell.ts\");\r\nvar testbed_1 = __webpack_require__(/*! ./testbed */ \"./src/testbed.ts\");\r\nvar list = [435, 254, 534, 425, 634, 653, 6536, 536, 34, 535, 2, 54];\r\nfunction origin() {\r\n    return list;\r\n}\r\nfunction bubbleTest() {\r\n    var copy = JSON.parse(JSON.stringify(list));\r\n    bubble_1.bubbleSort(copy);\r\n    return copy;\r\n}\r\nfunction insertTest() {\r\n    var copy = JSON.parse(JSON.stringify(list));\r\n    insert_1.insertSort(copy);\r\n    return copy;\r\n}\r\nfunction selectTest() {\r\n    var copy = JSON.parse(JSON.stringify(list));\r\n    select_1.selectSort(copy);\r\n    return copy;\r\n}\r\nfunction shellTest() {\r\n    var copy = JSON.parse(JSON.stringify(list));\r\n    shell_1.shellSort(copy);\r\n    return copy;\r\n}\r\nfunction mergeTest() {\r\n    var copy = JSON.parse(JSON.stringify(list));\r\n    return merge_1.mergeSort(copy);\r\n}\r\nfunction quickTest() {\r\n    var copy = JSON.parse(JSON.stringify(list));\r\n    quick_1.quickSort(copy, 0, copy.length - 1);\r\n    return copy;\r\n}\r\nfunction heapTest() {\r\n    var copy = JSON.parse(JSON.stringify(list));\r\n    heap_1.heapSort(copy);\r\n    return copy;\r\n}\r\nvar testBed = new testbed_1.TestBed();\r\ntestBed.add(origin, bubbleTest, insertTest, selectTest, shellTest, mergeTest, quickTest, heapTest);\r\ntestBed.run();\r\n\n\n//# sourceURL=webpack:///./src/main.ts?");
+
+/***/ }),
+
+/***/ "./src/sort/bubble.ts":
+/*!****************************!*\
+  !*** ./src/sort/bubble.ts ***!
+  \****************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+eval("\r\nObject.defineProperty(exports, \"__esModule\", { value: true });\r\nfunction bubbleSort(arr) {\r\n    var len = arr.length;\r\n    for (var i = 0; i < len - 1; i++) {\r\n        for (var j = 0; j < len - 1 - i; j++) {\r\n            if (arr[j] > arr[j + 1]) { // 相邻元素两两对比\r\n                var temp = arr[j + 1]; // 元素交换\r\n                arr[j + 1] = arr[j];\r\n                arr[j] = temp;\r\n            }\r\n        }\r\n    }\r\n    return arr;\r\n}\r\nexports.bubbleSort = bubbleSort;\r\nfunction bubble(arr, size) {\r\n    if (size == 1) {\r\n        return;\r\n    }\r\n    for (var i = 0; i < size - 1; i++) {\r\n        if (arr[i] > arr[i + 1]) {\r\n            var temp = arr[i];\r\n            arr[i] = arr[i + 1];\r\n            arr[i + 1] = temp;\r\n        }\r\n    }\r\n    bubble(arr, size - 1);\r\n}\r\nexports.bubble = bubble;\r\n\n\n//# sourceURL=webpack:///./src/sort/bubble.ts?");
+
+/***/ }),
+
+/***/ "./src/sort/heap.ts":
+/*!**************************!*\
+  !*** ./src/sort/heap.ts ***!
+  \**************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+eval("\r\nObject.defineProperty(exports, \"__esModule\", { value: true });\r\nfunction swap(arr, i, j) {\r\n    var temp = arr[i];\r\n    arr[i] = arr[j];\r\n    arr[j] = temp;\r\n}\r\nfunction adjust(arr, size, head) {\r\n    var left = head * 2 + 1 > size ? null : head * 2 + 1;\r\n    var right = head * 2 + 2 > size ? null : head * 2 + 2;\r\n    var maxIndex = head;\r\n    // 获得最大值得索引\r\n    if (left && arr[left] > arr[maxIndex]) {\r\n        maxIndex = left;\r\n    }\r\n    if (right && arr[right] > arr[maxIndex]) {\r\n        maxIndex = right;\r\n    }\r\n    if (maxIndex !== head) {\r\n        swap(arr, head, maxIndex);\r\n        // 交换后对应的子堆不一定为最大堆，需跳整\r\n        adjust(arr, size, maxIndex);\r\n    }\r\n}\r\nfunction buildMaxHeap(arr, size) {\r\n    for (var i = Math.floor(size / 2); i >= 0; i--) { // 数组后半部分必定为子节点\r\n        adjust(arr, size, i);\r\n    }\r\n}\r\nfunction heapSort(arr) {\r\n    buildMaxHeap(arr, arr.length);\r\n    for (var i = arr.length - 1; i > 0; i--) {\r\n        // 将对顶交换至末尾，从堆顶进行调整\r\n        swap(arr, 0, i);\r\n        adjust(arr, i - 1, 0);\r\n    }\r\n}\r\nexports.heapSort = heapSort;\r\n\n\n//# sourceURL=webpack:///./src/sort/heap.ts?");
+
+/***/ }),
+
+/***/ "./src/sort/insert.ts":
+/*!****************************!*\
+  !*** ./src/sort/insert.ts ***!
+  \****************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+eval("\r\nObject.defineProperty(exports, \"__esModule\", { value: true });\r\nfunction insertSort(arr) {\r\n    for (var i = 0; i < arr.length - 1; i++) {\r\n        var point = i + 1;\r\n        var current = arr[point];\r\n        while (current < arr[point - 1] && point) {\r\n            arr[point] = arr[point - 1];\r\n            point--;\r\n        }\r\n        arr[point] = current;\r\n    }\r\n}\r\nexports.insertSort = insertSort;\r\n\n\n//# sourceURL=webpack:///./src/sort/insert.ts?");
+
+/***/ }),
+
+/***/ "./src/sort/merge.ts":
+/*!***************************!*\
+  !*** ./src/sort/merge.ts ***!
+  \***************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+eval("\r\nObject.defineProperty(exports, \"__esModule\", { value: true });\r\nfunction merge(arr1, arr2) {\r\n    var result = [];\r\n    while (arr1.length && arr2.length) {\r\n        if (arr1[0] <= arr2[0]) {\r\n            result.push(arr1.shift());\r\n        }\r\n        else {\r\n            result.push(arr2.shift());\r\n        }\r\n    }\r\n    if (arr1.length) {\r\n        result.push.apply(result, arr1);\r\n    }\r\n    if (arr2.length) {\r\n        result.push.apply(result, arr2);\r\n    }\r\n    return result;\r\n}\r\nfunction mergeSort(arr) {\r\n    if (arr.length < 2) {\r\n        return arr;\r\n    }\r\n    var middle = Math.floor(arr.length / 2);\r\n    return merge(mergeSort(arr.slice(0, middle)), mergeSort(arr.slice(middle)));\r\n}\r\nexports.mergeSort = mergeSort;\r\n\n\n//# sourceURL=webpack:///./src/sort/merge.ts?");
+
+/***/ }),
+
+/***/ "./src/sort/quick.ts":
+/*!***************************!*\
+  !*** ./src/sort/quick.ts ***!
+  \***************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+eval("\r\nObject.defineProperty(exports, \"__esModule\", { value: true });\r\nfunction quickSort(arr, left, right) {\r\n    if (left < right) {\r\n        var baseIndex = moveBase(arr, left, right);\r\n        quickSort(arr, left, baseIndex - 1);\r\n        quickSort(arr, baseIndex + 1, right);\r\n    }\r\n}\r\nexports.quickSort = quickSort;\r\nfunction moveBase(arr, left, right) {\r\n    var base = arr[left];\r\n    while (left < right) {\r\n        while (arr[right] >= base && left < right) {\r\n            right--;\r\n        }\r\n        arr[left] = arr[right];\r\n        while (arr[left] < base && left < right) {\r\n            left++;\r\n        }\r\n        arr[right] = arr[left];\r\n    }\r\n    arr[left] = base;\r\n    return left;\r\n}\r\n\n\n//# sourceURL=webpack:///./src/sort/quick.ts?");
+
+/***/ }),
+
+/***/ "./src/sort/select.ts":
+/*!****************************!*\
+  !*** ./src/sort/select.ts ***!
+  \****************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+eval("\r\nObject.defineProperty(exports, \"__esModule\", { value: true });\r\nfunction selectSort(arr) {\r\n    for (var i = 0; i < arr.length - 1; i++) {\r\n        var minIdex = i;\r\n        for (var j = i + 1; j < arr.length; j++) {\r\n            if (arr[j] < arr[minIdex]) {\r\n                minIdex = j;\r\n            }\r\n        }\r\n        var temp = arr[i];\r\n        arr[i] = arr[minIdex];\r\n        arr[minIdex] = temp;\r\n    }\r\n}\r\nexports.selectSort = selectSort;\r\n\n\n//# sourceURL=webpack:///./src/sort/select.ts?");
+
+/***/ }),
+
+/***/ "./src/sort/shell.ts":
+/*!***************************!*\
+  !*** ./src/sort/shell.ts ***!
+  \***************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+eval("\r\nObject.defineProperty(exports, \"__esModule\", { value: true });\r\nfunction shellSort(arr) {\r\n    for (var i = Math.floor(arr.length / 2); i >= 1; i = Math.floor(i / 2)) {\r\n        for (var j = 0; j < arr.length - i; j++) {\r\n            var point = j + i;\r\n            var current = arr[point];\r\n            while (current < arr[point - i] && point) {\r\n                arr[point] = arr[point - i];\r\n                point -= i;\r\n            }\r\n            arr[point] = current;\r\n        }\r\n    }\r\n}\r\nexports.shellSort = shellSort;\r\n\n\n//# sourceURL=webpack:///./src/sort/shell.ts?");
+
+/***/ }),
+
+/***/ "./src/testbed.ts":
+/*!************************!*\
+  !*** ./src/testbed.ts ***!
+  \************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+eval("\r\nvar __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {\r\n    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;\r\n    if (typeof Reflect === \"object\" && typeof Reflect.decorate === \"function\") r = Reflect.decorate(decorators, target, key, desc);\r\n    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;\r\n    return c > 3 && r && Object.defineProperty(target, key, r), r;\r\n};\r\nObject.defineProperty(exports, \"__esModule\", { value: true });\r\nvar log_decorator_1 = __webpack_require__(/*! ./decoartor/log.decorator */ \"./src/decoartor/log.decorator.ts\");\r\nvar TestBed = /** @class */ (function () {\r\n    function TestBed() {\r\n        this.callbacks = [];\r\n    }\r\n    TestBed.prototype.add = function () {\r\n        var _a;\r\n        var methods = [];\r\n        for (var _i = 0; _i < arguments.length; _i++) {\r\n            methods[_i] = arguments[_i];\r\n        }\r\n        (_a = this.callbacks).push.apply(_a, methods);\r\n    };\r\n    TestBed.prototype.run = function () {\r\n        var _this = this;\r\n        this.callbacks.forEach(function (test) {\r\n            _this.exec(test);\r\n        });\r\n    };\r\n    TestBed.prototype.exec = function (test) {\r\n        return test();\r\n    };\r\n    __decorate([\r\n        log_decorator_1.TestLog\r\n    ], TestBed.prototype, \"exec\", null);\r\n    return TestBed;\r\n}());\r\nexports.TestBed = TestBed;\r\n\n\n//# sourceURL=webpack:///./src/testbed.ts?");
 
 /***/ })
 
