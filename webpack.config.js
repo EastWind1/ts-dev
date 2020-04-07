@@ -6,7 +6,7 @@ module.exports = {
     mode: 'development',
     entry: './src/main.ts',
     output: {
-        path: path.resolve(__dirname, 'docs'),
+        path: path.resolve(__dirname, 'dist'),
         filename: 'main.bundle.js'
     },
     devServer: {
